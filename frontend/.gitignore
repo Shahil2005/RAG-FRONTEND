@@ -30,8 +30,6 @@ dist/
 build/
 develop-eggs/
 downloads/
-lib/
-lib64/
 parts/
 sdist/
 var/
