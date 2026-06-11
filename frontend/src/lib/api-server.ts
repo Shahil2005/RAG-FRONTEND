@@ -11,7 +11,10 @@ export async function serverApiFetch<T>(
     .map((c) => `${c.name}=${c.value}`)
     .join('; ');
 
-  const base = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001';
+  const base =
+    process.env.API_INTERNAL_URL ??
+    process.env.NEXT_PUBLIC_API_URL ??
+    'http://localhost:3001';
   const res = await fetch(`${base}/api/v1${path}`, {
     ...options,
     cache: 'no-store',

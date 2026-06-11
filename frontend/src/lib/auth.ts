@@ -19,7 +19,10 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
 
   if (!cookieHeader) return null;
 
-  const base = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001';
+  const base =
+    process.env.API_INTERNAL_URL ??
+    process.env.NEXT_PUBLIC_API_URL ??
+    'http://localhost:3001';
 
   try {
     const res = await fetch(`${base}/api/v1/auth/me`, {
@@ -28,6 +31,7 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
       signal: AbortSignal.timeout(5_000),
     });
     if (!res.ok) {
+      if (res.status === 401) return null;
       logWarn('Auth', 'getCurrentUser: /auth/me returned non-OK', { status: res.status });
       return null;
     }
